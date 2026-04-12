@@ -1,11 +1,11 @@
 from flask import Flask, request
-import os
-
-app = Flask(__name__)
 
 # Log PORT status on startup.
+import os
+print("STARTING APP")
 print("PORT:", os.environ.get("PORT"))
 
+app = Flask(__name__)
 
 @app.get("/getcustomers", strict_slashes=False)
 def get_customers():
