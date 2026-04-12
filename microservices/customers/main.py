@@ -1,11 +1,12 @@
 from flask import Flask, request
+import os
 
 # Log PORT status on startup.
-import os
 print("STARTING APP")
 print("PORT:", os.environ.get("PORT"))
 
 app = Flask(__name__)
+
 
 @app.get("/getcustomers", strict_slashes=False)
 def get_customers():
@@ -27,3 +28,9 @@ def get_customers_data():
         {'customer_id': 10, 'name': 'Derek Patel', 'address': '317 Elmwood Drive Suite 22', 'city': 'Phoenix', 'state': 'Arizona', 'zipcode': '85001', 'country': 'United States'},
     ]
     return customers
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    print(f"Running on port {port}")
+    app.run(host="0.0.0.0", port=port)
