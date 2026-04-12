@@ -6,7 +6,6 @@ steps:
   args: [
     'build',
     '--builder', 'gcr.io/buildpacks/builder',
-    '--env', 'GOOGLE_ENTRYPOINT=gunicorn main:app',
     '--env', 'GOOGLE_RUNTIME_VERSION=3.11',
     '--publish',
     'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/buildconfig-customers-img'
