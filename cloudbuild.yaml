@@ -1,6 +1,28 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['version']
+- id: "Build Image using Build Packs"
+  name: 'gcr.io/k8s-skaffold/pack:latest'
+  entrypoint: "pack"
+  dir: '/microservices/customers'
+  args: ['build', 
+          '--builder', 'gcr.io/buildpacks/builder', 
+          '--publish', 'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/buildconfig-customers-img']                      
+- id: "Deploy Cloud Run Service"
+  name: 'gcr.io/cloud-builders/gcloud:latest'
+  args: [
+    'run', 'deploy', 'buildconfig-customers-img', 
+    '--service-account' ,'cumhur-cloud-run-customers@${PROJECT_ID}.iam.gserviceaccount.com',
+    '--allow-unauthenticated',
+    '--memory', '256Mi',
+    '--platform', 'managed',
+    '--image', 'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/buildconfig-customers-img',
+    '--timeout', '30',
+    '--min-instances', '0',
+    '--max-instances', '1',
+    '--ingress', 'all',
+    '--region', 'us-central1',
+    ]
 
+timeout: 600s
 options:
   logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
