@@ -2,7 +2,7 @@ steps:
 - id: "Build Image using Build Packs"
   name: 'gcr.io/k8s-skaffold/pack:latest'
   entrypoint: "pack"
-  dir: '/microservices/customers'
+  dir: 'microservices/customers'
   args: ['build', 
           '--builder', 'gcr.io/buildpacks/builder', 
           '--publish', 'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/buildconfig-customers-img']                      
