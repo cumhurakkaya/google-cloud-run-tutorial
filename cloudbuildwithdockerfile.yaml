@@ -1,9 +1,9 @@
 steps:
 - id: "Build Docker Image"
   name: 'gcr.io/cloud-builders/docker:latest'
-  dir: 'lab-9-build-and-deploy-cloud-run-service-using-buildconfig-and-dockerfile/microservices/customers'
+  dir: 'microservices/customers'
   args: ['build', 
-          '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-monkey-artifact-registry/lab-09-get-customers-svc-img',
+          '-t', 'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/builddocker-customers-img',
           '.']
 
 - id: "Push Docker Image To Artifact Registry"
@@ -14,11 +14,11 @@ steps:
   name: 'gcr.io/cloud-builders/gcloud:latest'
   args: [
     'run', 'deploy', 'lab-09-get-customers-svc', 
-    '--service-account' ,'sa-customers-svc@${PROJECT_ID}.iam.gserviceaccount.com',
+    '--service-account' ,'cumhur-cloud-run-customers@${PROJECT_ID}.iam.gserviceaccount.com',
     '--allow-unauthenticated',
     '--memory', '256Mi',
     '--platform', 'managed',
-    '--image', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-monkey-artifact-registry/lab-09-get-customers-svc-img',
+    '--image', 'us-central1-docker.pkg.dev/cloud-run-project-492815/cloud-run-artifact-registry/builddocker-customers-img',
     '--timeout', '30',
     '--min-instances', '0',
     '--max-instances', '1',
